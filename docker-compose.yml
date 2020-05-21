@@ -202,6 +202,7 @@ services:
           - INSTALL_BCMATH=${PHP_FPM_INSTALL_BCMATH}
           - INSTALL_PHPREDIS=${PHP_FPM_INSTALL_PHPREDIS}
           - INSTALL_MEMCACHED=${PHP_FPM_INSTALL_MEMCACHED}
+          - INSTALL_YAR=${PHP_FPM_INSTALL_YAR}
           - INSTALL_OPCACHE=${PHP_FPM_INSTALL_OPCACHE}
           - INSTALL_EXIF=${PHP_FPM_INSTALL_EXIF}
           - INSTALL_AEROSPIKE=${PHP_FPM_INSTALL_AEROSPIKE}
@@ -250,6 +251,7 @@ services:
         - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
+        - "insurance.product.service.cfb.com:10.0.75.1"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
@@ -358,6 +360,8 @@ services:
       networks:
         - frontend
         - backend
+      environment:
+        - VIRTUAL_HOST=${DINGHY_VIRTUAL_HOST}
 
 ### Blackfire ########################################
     blackfire:

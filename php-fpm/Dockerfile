@@ -900,6 +900,34 @@ RUN if [ ${INSTALL_CACHETOOL} = true ]; then \
 ;fi
 
 ###########################################################################
+# PHP Yar:
+###########################################################################
+
+ARG INSTALL_YAR=false
+
+RUN if [ ${INSTALL_YAR} = true ]; then \
+    # Install the php msgpack extension
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install msgpack-0.5.7; \
+    else \
+      pecl install msgpack-2.1.0; \
+    fi \
+    && docker-php-ext-enable msgpack \
+;fi 
+
+# curl-devel || libcurl4-gnutls-dev
+RUN apt-get install -yqq libcurl4-gnutls-dev \
+    && if [ ${INSTALL_YAR} = true ]; then \
+      # Install the php yar extension
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        pecl install yar-1.2.5; \
+      else \
+        pecl install yar-2.1.2; \
+      fi \
+    && docker-php-ext-enable yar \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 

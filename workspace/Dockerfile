@@ -660,9 +660,13 @@ ARG NVM_NODEJS_ORG_MIRROR
 ENV NVM_NODEJS_ORG_MIRROR ${NVM_NODEJS_ORG_MIRROR}
 
 RUN if [ ${INSTALL_NODE} = true ]; then \
+    curl -o /tmp/install.sh https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh \
+;fi
+
+RUN if [ ${INSTALL_NODE} = true ]; then \
     # Install nvm (A Node Version Manager)
-    mkdir -p $NVM_DIR && \
-    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash \
+    mkdir -p $NVM_DIR \
+        && bash /tmp/install.sh \
         && . $NVM_DIR/nvm.sh \
         && nvm install ${NODE_VERSION} \
         && nvm use ${NODE_VERSION} \
