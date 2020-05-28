@@ -928,6 +928,20 @@ RUN apt-get install -yqq libcurl4-gnutls-dev \
 ;fi
 
 ###########################################################################
+# Mcrypt:
+###########################################################################
+
+ARG INSTALL_MCRYPT=false
+
+RUN if [ ${INSTALL_MCRYPT} = true ]; then \
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "7" ]; then \
+        apt-get install libmcrypt-dev libreadline-dev && \
+        pecl install mcrypt-1.0.3 && \
+        docker-php-ext-enable mcrypt \
+      ;fi \
+;fi
+
+###########################################################################
 # Check PHP version:
 ###########################################################################
 
