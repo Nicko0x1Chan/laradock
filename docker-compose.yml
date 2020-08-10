@@ -252,7 +252,7 @@ services:
         - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
-        - "insurance.product.service.cfb.com:10.0.75.1"
+        - "insurance.product.service.cfb.com:${DOCKER_HOST_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
@@ -359,8 +359,13 @@ services:
       depends_on:
         - php-fpm
       networks:
-        - frontend
-        - backend
+        frontend:
+        backend:
+          aliases:
+            - yarserver.localhost.com
+            - yarserver2.localhost.com
+            - yarserver3.localhost.com
+            - localhost.io
       environment:
         - VIRTUAL_HOST=${DINGHY_VIRTUAL_HOST}
 
@@ -1723,3 +1728,18 @@ services:
         - ${DATA_PATH_HOST}/tomcat/logs:/usr/local/tomcat/logs
       # restart: always
 
+### verdaccio ##################################################
+    verdaccio:
+      build: 
+        context: ./verdaccio
+      networks:
+        - backend
+      environment:
+        - VERDACCIO_PORT=4873
+      ports:
+        - "4873:4873"
+      volumes:
+        - ${DATA_PATH_HOST}/verdaccio/storage:/verdaccio/storage
+        - ${DATA_PATH_HOST}/verdaccio/conf:/verdaccio/conf
+        - ${DATA_PATH_HOST}/verdaccio/plugins:/verdaccio/plugins
+        - ${DATA_PATH_HOST}/verdaccio/logs:/verdaccio/logs
