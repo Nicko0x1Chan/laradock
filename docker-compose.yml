@@ -873,6 +873,8 @@ services:
         context: ./kibana
         args:
           - ELK_VERSION=${ELK_VERSION}
+      environment:
+        - I18N_LOCALE=${I18N_LOCALE}
       ports:
         - "${KIBANA_HTTP_PORT}:5601"
       depends_on:
