@@ -1251,6 +1251,33 @@ RUN if [ ${INSTALL_YAML} = true ]; then \
 ;fi
 
 ###########################################################################
+# PHP Yar:
+###########################################################################
+
+ARG INSTALL_YAR=false
+
+# curl-devel || libcurl4-gnutls-dev
+RUN if [ ${INSTALL_YAR} = true ]; then \
+      # Install the php yar extension
+      if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+        # cd /tmp && \
+        # curl -L http://pecl.php.net/get/yar-1.2.4.tgz -O && \
+        # tar zxvf yar-1.2.4.tgz && \ 
+        # cd /tmp/yar-1.2.4 && \
+        # phpize && \
+        # ./configure && \
+        # make && \
+        # make install && \
+        # rm /tmp/yar-1.2.4.tgz && \
+        # rm -r /tmp/yar-1.2.4; \
+        pecl install yar-1.2.5; \
+      else \
+        pecl install yar-2.1.2; \
+      fi \
+    && echo "extension=yar.so" >> /etc/php/${LARADOCK_PHP_VERSION}/cli/php.ini \
+;fi
+
+###########################################################################
 # FFMpeg:
 ###########################################################################
 

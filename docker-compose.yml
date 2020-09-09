@@ -128,6 +128,7 @@ services:
           - INSTALL_FSWATCH=${WORKSPACE_INSTALL_FSWATCH}
           - INSTALL_AST=${WORKSPACE_INSTALL_AST}
           - INSTALL_YAML=${WORKSPACE_INSTALL_YAML}
+          - INSTALL_YAR=${WORKSPACE_INSTALL_YAR}
           - INSTALL_MAILPARSE=${WORKSPACE_INSTALL_MAILPARSE}
           - INSTALL_GIT_PROMPT=${WORKSPACE_INSTALL_GIT_PROMPT}
           - PUID=${WORKSPACE_PUID}
@@ -823,6 +824,7 @@ services:
         context: ./elasticsearch
         args:
           - ELK_VERSION=${ELK_VERSION}
+          - INSTALL_ANALYSIS_IK=${INSTALL_ANALYSIS_IK}
       volumes:
         - elasticsearch:/usr/share/elasticsearch/data
       environment:
