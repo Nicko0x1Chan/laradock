@@ -368,7 +368,9 @@ services:
             - yarserver.localhost.com
             - yarserver2.localhost.com
             - yarserver3.localhost.com
+            - kjapi.98809.com
             - localhost.io
+            - www.hqqt.com
       environment:
         - VIRTUAL_HOST=${DINGHY_VIRTUAL_HOST}
 
@@ -878,6 +880,26 @@ services:
       ports:
         - "${KIBANA_HTTP_PORT}:5601"
       depends_on:
+        - elasticsearch
+      networks:
+        - frontend
+        - backend
+
+### Filebeat ##############################################
+    filebeat:
+      build: 
+        context: ./filebeat
+        args:
+          - ELK_VERSION=${ELK_VERSION}
+      volumes:
+        - './filebeat/config/filebeat.yml:/usr/share/filebeat/filebeat.yml'
+        - ${DATA_PATH_HOST}/filebeat/logs:/usr/share/filebeat/logs
+        - ${DATA_PATH_HOST}/filebeat/data:/usr/share/filebeat/data
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
+      env_file:
+        - .env
+      depends_on:
+        - workspace
         - elasticsearch
       networks:
         - frontend
