@@ -1,0 +1,5 @@
+ARG KAFKA_VERSION
+
+FROM wurstmeister/kafka:${KAFKA_VERSION}
+
+EXPOSE 9092

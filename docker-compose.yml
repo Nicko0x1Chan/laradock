@@ -51,6 +51,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   docker-in-docker:
     driver: ${VOLUMES_DRIVER}
+  kafka:
+    driver: ${VOLUMES_DRIVER}
 
 services:
 
@@ -146,6 +148,8 @@ services:
           - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
           - INSTALL_WKHTMLTOPDF=${WORKSPACE_INSTALL_WKHTMLTOPDF}
           - INSTALL_GNU_PARALLEL=${WORKSPACE_INSTALL_GNU_PARALLEL}
+          - INSTALL_GOLANG=${WORKSPACE_INSTALL_GOLANG}
+          - GOLANG_VERSION=${WORKSPACE_GOLANG_VERSION}
           - http_proxy
           - https_proxy
           - no_proxy
@@ -1771,3 +1775,35 @@ services:
         - ${DATA_PATH_HOST}/verdaccio/conf:/verdaccio/conf
         - ${DATA_PATH_HOST}/verdaccio/plugins:/verdaccio/plugins
         - ${DATA_PATH_HOST}/verdaccio/logs:/verdaccio/logs
+
+### kafka ##################################################
+    kafka:
+      build: 
+        context: ./kafka
+        args:
+          - KAFKA_VERSION=${KAFKA_VERSION}
+      networks:
+        - backend
+      environment:
+        - KAFKA_ADVERTISED_HOST_NAME=kafka
+        - KAFKA_CREATE_TOPICS="laradock:1:1"
+        - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      ports:
+        - "${KAFKA_PORT}:9092"
+      volumes:
+        - ${KAFKA_PATH}:/var/run/docker.sock       
+
+### golang ##################################################
+    golang:
+      build: 
+        context: ./golang
+        args:
+          - GOLANG_VERSION=${GOLANG_VERSION}
+          - GOLANG_PORT=${GOLANG_PORT}
+      networks:
+        - backend
+      ports:
+        - "${GOLANG_PORT}:8888"
+      volumes:
+        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}/go${APP_CODE_CONTAINER_FLAG}       
+

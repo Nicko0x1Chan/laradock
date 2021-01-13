@@ -1,0 +1,10 @@
+ARG GOLANG_VERSION
+
+FROM golang:${GOLANG_VERSION}
+
+ENV GO111MODULE on
+ENV GOPROXY https://goproxy.cn,direct
+
+WORKDIR $GOPATH/src
+ 
+EXPOSE 8888

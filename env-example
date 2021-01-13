@@ -39,7 +39,7 @@ COMPOSE_PROJECT_NAME=laradock
 
 # Select a PHP version of the Workspace and PHP-FPM containers (Does not apply to HHVM).
 # Accepted values: 7.4 - 7.3 - 7.2 - 7.1 - 7.0 - 5.6
-PHP_VERSION=7.3
+PHP_VERSION=7.2
 
 ### Phalcon Version ###########################################
 
@@ -175,6 +175,8 @@ WORKSPACE_VUE_CLI_SERVE_HOST_PORT=8080
 WORKSPACE_VUE_CLI_UI_HOST_PORT=8001
 WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT=4200
 WORKSPACE_INSTALL_GIT_PROMPT=false
+WORKSPACE_INSTALL_GOLANG=true
+WORKSPACE_GOLANG_VERSION=1.15.6
 
 ### PHP_FPM ###############################################
 
@@ -320,6 +322,12 @@ REDIS_CLUSTER_PORT_RANGE=7000-7005
 ### ZooKeeper #############################################
 
 ZOOKEEPER_PORT=2181
+
+### Kafka #############################################
+
+KAFKA_VERSION=latest
+KAFKA_PORT=9092
+KAFKA_PATH=/var/run/docker.sock
 
 ### Percona ###############################################
 

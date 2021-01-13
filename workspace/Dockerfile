@@ -1382,6 +1382,37 @@ bindkey "^?" backward-delete-char\n' >> /home/laradock/.zshrc \
 
 USER root
 
+###########################################################################
+# GOLANG
+###########################################################################
+
+USER root
+
+ARG INSTALL_GOLANG
+ARG GOLANG_VERSION
+
+RUN if [ ${INSTALL_GOLANG} = true ]; then \
+    # apt-get update -yqq && \
+
+    cd /tmp && \
+    curl -L https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz -O && \
+    tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
+    rm /tmp/go${GOLANG_VERSION}.linux-amd64.tar.gz \
+
+    # if [ ${GOLANG_VERSION} = "latest" ]; then \
+    #     apt-get install -yqq golang; \
+    # else \
+    #     apt-get install -yqq golang-${GOLANG_VERSION}-go; \
+    # fi \
+;fi
+
+RUN echo "" >> ~/.bashrc && \
+    echo 'export PATH="$PATH:/usr/local/go/bin"' >> ~/.bashrc && \
+    echo 'export GO111MODULE="on"' >> ~/.bashrc && \
+    echo 'export GOPROXY="https://goproxy.cn,direct"' >> ~/.bashrc \
+
+USER root
+
 #
 #--------------------------------------------------------------------------
 # Final Touch
